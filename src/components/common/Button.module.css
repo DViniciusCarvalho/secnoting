@@ -1,0 +1,107 @@
+.button {
+    width: 80%;
+    height: 9%;
+    border-radius: 7px;
+    background-color: rgb(31, 78, 92);
+    border: 0.2px solid rgba(25, 55, 65, 0.767);
+    box-shadow: 1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719),
+                1px 1px 1px rgba(25, 55, 65, 0.719);
+    color: white;
+    font-size: 1.1em;
+    transition: background-color .2s;
+}
+
+.button.register {
+    margin: 7% 0 8% 0;
+}
+
+.button.first__page {
+    margin: 1% 0;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgb(41, 111, 133);
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 1100px) {
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+}
+
+@media only screen and (max-width: 1099px) and (min-width: 1027px) {
+    .button.register {
+        margin: 7% 0 9% 0;
+    }
+}
+
+@media only screen and (max-width: 1026px) and (min-width: 972px) {
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+}
+
+@media only screen and (max-width: 971px) and (min-width: 860px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+}
+
+@media only screen and (max-width: 859px) and (min-width: 755px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+}
+
+@media only screen and (max-width: 754px) and (min-width: 681px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+}
+
+@media only screen and (max-width: 680px) and (min-width: 573px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+    .button.first__page {
+        height: 13%;
+    }
+}
+
+
+@media only screen and (max-width: 572px) and (min-width: 486px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+    .button.first__page {
+        height: 13%;
+    }
+}
+
+@media only screen and (max-width: 485px) and (min-width: 406px){
+    .button.register {
+        margin: 7% 0 13% 0;
+    }
+    .button.first__page {
+        height: 13%;
+    }
+}
+
+@media only screen and (max-width: 405px){
+    .button {
+        margin: 7% 0 13% 0;
+    }
+    .button.first__page {
+        height: 13%;
+    }
+}

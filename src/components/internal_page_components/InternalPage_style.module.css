@@ -1,0 +1,41 @@
+.internal__page__background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    height: 100%;
+    width: 100%;
+    padding: 1%;
+}
+
+.internal__page__background.light {
+    background-color: rgb(228, 226, 226);
+}
+
+.internal__page__background.dark {
+    background-color: rgb(29, 31, 34);
+}
+
+.internal__page__background.light ::-webkit-scrollbar {
+    background-color: #F5F5F5;
+}
+
+.internal__page__background.light ::-webkit-scrollbar-thumb {
+    background-color: #AAA;
+}
+
+.internal__page__background.dark ::-webkit-scrollbar {
+    background-color: #57575e;
+}
+
+.internal__page__background.dark ::-webkit-scrollbar-thumb {
+    background-color: #3f3f46;
+}
+
+@media only screen and (max-width: 936px){
+    .internal__page__background {
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+    }
+}

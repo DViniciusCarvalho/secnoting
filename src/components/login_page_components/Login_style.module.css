@@ -1,0 +1,187 @@
+.form__background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to top right, rgb(48, 77, 85), rgb(41, 119, 143));
+}
+
+.form__block {
+    position: absolute;
+    display: flex;
+    top: -50%;
+    flex-direction: column;
+    width: 30%;
+    opacity: 0;
+    height: 70%;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.514);
+    background-color: white;
+    transition: opacity 4s, top 1s;
+}
+
+.form__background.loaded .form__block{
+    top: 15%;
+    opacity: 1;
+}
+
+.form__field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.login__message {
+    margin: 4% 0;
+    color: rgb(31, 78, 92);
+}
+
+.welcome__message {
+    margin-top: 2%;
+    font-size: 0.95em;
+    font-weight: 500;
+    color: gray;
+}
+
+.separation__line {
+    width: 100%;
+    margin: 4% 0 14% 0;
+}
+
+.email__block, .password__block {
+    width: 80%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.password__block {
+    margin-bottom: 5%;
+}
+
+.email__input, .password__input {
+    padding: 5px;
+    outline: 0;
+    border: 0.2px solid rgb(117, 116, 116);
+}
+
+.email__input, .password__area {
+    height: 50%;
+    width: 100%;
+}
+
+.data__label {
+    margin-bottom: 2%;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    font-size: 1.1em;
+}
+
+.password__area {
+    display: flex;
+}
+
+.password__input {
+    width: 85%;
+    height: 100%;
+}
+
+.toggle__password__visibility {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
+    height: 100%;
+    border: 0.2px solid rgba(41, 43, 49, 0.445);
+    background-color: rgb(40, 114, 136);
+    transition: background-color .2s;
+}
+
+.toggle__password__visibility:hover {
+    background-color: rgb(37, 143, 175);
+    cursor: pointer;
+}
+
+.login__link {
+    font-size: 0.95em;
+    color: rgb(102, 99, 99);
+}
+
+.login__link > a {
+    text-decoration: none;
+}
+
+@media only screen and (max-width: 1200px) and (min-width: 1100px) {
+    .form__block {
+        width: 35%;
+    }
+}
+
+@media only screen and (max-width: 1099px) and (min-width: 1027px) {
+    .form__block {
+        width: 37%;
+    }
+}
+
+@media only screen and (max-width: 1026px) and (min-width: 972px) {
+    .form__block {
+        width: 39%;
+    }
+}
+
+@media only screen and (max-width: 971px) and (min-width: 860px){
+    .form__block {
+        width: 42%;
+    }
+}
+
+@media only screen and (max-width: 859px) and (min-width: 755px){
+    .form__block {
+        width: 44%;
+    }
+}
+
+@media only screen and (max-width: 754px) and (min-width: 672px){
+    .form__block {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 671px) and (min-width: 573px){
+    .form__block {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 671px) and (min-width: 573px){
+    .form__block {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 572px) and (min-width: 486px){
+    .form__block {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 485px) and (min-width: 406px){
+    .form__block {
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 405px){
+    .form__block {
+        width: 95%;
+    }
+}
+
+
+
+
+

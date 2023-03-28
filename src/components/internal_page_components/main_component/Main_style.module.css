@@ -1,0 +1,371 @@
+.main__content {
+    width: 72%;
+    height: 100%;
+    border-radius: 18px;
+    padding: 2%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.main__content.light {
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.651);
+    background-color: rgb(236, 236, 236);
+    color: black;
+}
+
+.main__content.dark {
+    box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.651);
+    background-color: rgb(46, 50, 56);
+    color: white;
+}
+
+.add__button__block {
+    width: 100%;
+    height: 50px;
+    margin: 0;
+}
+.add__annotation__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin-right: calc(100% - 50px);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.596);
+}
+
+.main__content.light .add__annotation__button {
+    background-color:rgb(218, 218, 218);
+}
+
+.main__content.dark .add__annotation__button {
+    background-color: rgb(77, 82, 90);
+}
+
+.add__annotation__icon {
+    width: 30px;
+    height: 30px;
+}
+
+.folder, .completed, .deleted {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    gap: 2%;
+}
+
+/* Annotation */
+.annotation__block.closed {
+    width: 30%;
+    height: 300px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.575);
+    overflow: hidden;
+}
+
+.annotation__block.openned {
+    position: absolute;
+    width: 60vw;
+    height: 80vh;
+    border-radius: 8px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.753);
+}
+
+.main__content.light .annotation__block {
+    background-color: rgb(226, 223, 223);
+}
+
+.main__content.light .annotation__block.closed:hover, 
+.main__content.light .annotation__block.closed:hover > .external__header {
+    background-color: rgb(218, 218, 218);
+}
+
+.main__content.dark .annotation__block {
+    background-color: rgb(70, 68, 68);
+}
+
+.main__content.dark .annotation__block.closed:hover, 
+.main__content.dark .annotation__block.closed:hover > .external__header {
+    background-color: rgb(85, 82, 82);
+}
+
+.external__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 16%;
+    padding: 0px 4%;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.external__header__title {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 80%;
+    overflow: hidden;
+}
+
+.main__content.light .external__header {
+    background-color: rgb(219, 215, 215);
+}
+
+.main__content.dark .external__header {
+    background-color: rgb(75, 73, 73);
+}
+
+.delete__item__icon {
+    height: 20px;
+    width: 20px;
+    background-size: cover;
+}
+
+.main__content.light .delete__item__icon {
+    background-image: url("./main_images/delete_light_theme.png");
+}
+
+.main__content.dark .delete__item__icon {
+    background-image: url("./main_images/delete_dark_theme.png");
+}
+
+.delete__icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.internal__header {
+    display: none;
+}
+
+.annotation__block.openned .external__header {
+    display: none;
+}
+
+.annotation__block.openned .internal__header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    height: 18%;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.buttons__area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    padding: 0 2%;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.main__content.light .buttons__area {
+    background-color: rgb(219, 215, 215);
+}
+
+.main__content.dark .buttons__area {
+    background-color: rgb(75, 73, 73);
+}
+
+.annonation__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16%;
+    width: 20%;
+    height: 100%;
+}
+
+.save__button {
+    width: 26px;
+    height: 26px;
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+}
+
+.export__button {
+    width: 26px;
+    height: 26px;
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+}
+
+.exit__button {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+}
+
+.main__content.light .save__button {
+    background-image: url("./main_images/save_light_mode.png");
+}
+
+.main__content.dark .save__button {
+    background-image: url("./main_images/save_dark_mode.png");
+}
+
+.main__content.light .export__button {
+    background-image: url("./main_images/export_light_theme.png");
+}
+
+.main__content.dark .export__button {
+    background-image: url("./main_images/export_dark_theme.png");
+}
+
+.main__content.light .exit__button  {
+    background-image: url("./main_images/close_light_theme.png");
+}
+
+.main__content.dark .exit__button  {
+    background-image: url("./main_images/close_dark_theme.png");
+}
+
+.annotation__title {
+    display: flex;
+    width: 80%;
+    height: 40%;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0 2%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    outline: 0;
+}
+
+.annotation__date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14%;
+    height: 50%;
+    font-size: 0.95em;
+    padding-right: 2%;
+    font-weight: 100;
+}
+
+.main__content.light .annotation__date {
+    color: black;
+}
+
+.main__content.dark .annotation__date {
+    color: rgb(214, 214, 214);
+}
+
+.annotation__content {
+    height: 82%;
+    padding: 0px 2%;
+    outline: 0;
+}
+
+.annotation__block.openned .annotation__content{
+    overflow-y: auto;
+    display: block;
+}
+
+.annotation__block.closed .annotation__content{
+    overflow: hidden;
+    display: none;
+}
+
+
+@media only screen and (max-width: 1178px) and (min-width: 937px) {
+    .main__content {
+        width: 66%;
+    }
+
+    .annotation__block.closed {
+        width: 48%;
+    }
+
+    .annotation__block.openned {
+        position: absolute;
+        left: 15%;
+        width: 70%;
+        top: 12%;
+    }
+}
+
+@media only screen and (max-width: 936px) and (min-width:773px){
+    .main__content {
+        width: 100%;
+        height: 80%;
+        border-radius: 0;
+    }
+
+    .annotation__block.closed {
+        width: 48%;
+    }
+
+    .annotation__block.openned {
+        position: absolute;
+        left: 10%;
+        width: 80%;
+        top: 12%;
+    } 
+
+    .annotation__date {
+        padding-right: 7%;
+    }
+}
+
+@media only screen and (max-width: 772px) and (min-width: 551px){
+    .main__content {
+        width: 100%;
+        height: 80%;
+        border-radius: 0;
+    }
+
+    .annotation__block.closed {
+        width: 48%;
+    }
+
+    .annotation__block.openned {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 0%;
+    }
+
+    .annotation__date {
+        padding-right: 9%;
+    }
+}
+@media only screen and (max-width: 550px){
+    .main__content {
+        width: 100%;
+        height: 80%;
+        border-radius: 0;
+    }
+
+    .annotation__block.closed {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .annotation__block.openned {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: 0%;
+    }
+
+    .annotation__date {
+        padding-right: 12%;
+    }
+}
+
