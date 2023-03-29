@@ -1,19 +1,6 @@
 from sqlalchemy import text
 from .connection import Connection
 
-# def remove_tables():
-#     query = text("SELECT table_name FROM information_schema.tables WHERE table_schema = 'noteapp'")
-#     result = Connection.execute_query_without_value(query)
-#     for table_tuple in Connection.fetch_data(result):
-#         table = table_tuple[0]
-#         if table != "users":
-#             query_2 = text(f"DROP TABLE {table}")
-#             Connection.execute_query_without_value(query_2)
-#             print("foi")
-#         else:
-#             print("era o 'users'")
-
-# remove_tables()
 
 def add_user(name, email, password):
     query = text("INSERT INTO users (name, email, password) VALUES (:name, :email, :password)")
