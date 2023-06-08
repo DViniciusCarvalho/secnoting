@@ -38,6 +38,6 @@ def return_id_if_is_valid(user_token):
 def decode_token(user_token):
     token = is_valid_token(user_token)
     if token:
-        return token["sub"]
+        return int(token["sub"])
     return False
 

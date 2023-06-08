@@ -19,14 +19,29 @@ router = APIRouter()
 async def add_annotation(request: Request):
     data = await request.json()
     token = data["token"]
-    valid_id = int(decode_token(token))
+    valid_id = decode_token(token)
+
     if valid_id:
-        current_timestamp = time.time() * 1000
-        create_new_annotation(valid_id, "", "", current_timestamp)
-        annotation_id = get_annotation_id("folders", valid_id, current_timestamp)
-        return create_annotation_response(True, annotation_id, "", "", current_timestamp)
-    else:
-        return create_annotation_response(False, "", "", "", 0)
+        current_timestamp = int(time.time() * 1000)
+
+        create_new_annotation(
+            user_id=valid_id, 
+            timestamp=current_timestamp
+        )
+
+        annotation_id = get_annotation_id(
+            "folders", 
+            valid_id, 
+            current_timestamp
+        )
+
+        return create_annotation_response(
+            authorized=True, 
+            annot_id=annotation_id, 
+            timestamp=current_timestamp
+        )
+    
+    return create_annotation_response(authorized=False)
 
 
     

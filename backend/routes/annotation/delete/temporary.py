@@ -23,13 +23,19 @@ async def send_annotation_to_deleted(request: Request):
     annot_content = data["content"]
     annot_timestamp = data["timestamp"]
     valid_id = decode_token(user_token)
+    
     if valid_id:
         sucess_in_remove = remove_from_folders(valid_id, annot_id)
         if sucess_in_remove:
             if add_to_deleteds(valid_id, annot_title, annot_content, annot_timestamp):
-                annot_deleteds_id = get_annotation_id("deleteds", valid_id, annot_timestamp)
+
+                annot_deleteds_id = get_annotation_id(
+                    "deleteds", 
+                    valid_id, 
+                    annot_timestamp
+                )
+
                 return create_moved_annotation_response(True, annot_deleteds_id, True)
-            return create_moved_annotation_response(True, "", False)
-        return create_moved_annotation_response(True, "", False)
-    else:
-        return create_moved_annotation_response(False, "", False)
+            return create_moved_annotation_response(True, done=False)
+        return create_moved_annotation_response(True, done=False)
+    return create_moved_annotation_response(False, done=False)

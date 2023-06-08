@@ -20,6 +20,7 @@ async def delete_permanently(request: Request):
     annot_id = data["id"]
     token = data["token"]
     valid_id = decode_token(token)
+    
     if valid_id:
         success = delete_annotation_permanently(valid_id, annot_id)
         if success:

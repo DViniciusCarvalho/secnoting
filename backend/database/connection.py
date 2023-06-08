@@ -1,9 +1,20 @@
 from sqlalchemy import create_engine, ResultProxy
 from sqlalchemy.orm import sessionmaker
+from os import getenv
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 class Connection:
-    engine = create_engine("mysql://user:password@host:port/database")
+    
+    _user = getenv("MYSQL_USER")
+    _password = getenv("MYSQL_PASSWORD")
+    _host = getenv("MYSQL_HOST")
+    _port = getenv("MYSQL_PORT")
+    _database = getenv("MYSQL_DATABASE")
+
+    engine = create_engine(f"mysql://{_user}:{_password}@{_host}:{_port}/{_database}")
     Session = sessionmaker(bind = engine)
     session = Session()
 
