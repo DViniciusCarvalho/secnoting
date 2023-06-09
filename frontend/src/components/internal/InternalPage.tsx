@@ -11,12 +11,13 @@ import { Navigate } from "react-router-dom";
 import { 
     isButton, 
     isTheTargetElementToShow, 
-    isNotTheThemeButton 
+    isNotTheThemeButton, 
+    deepClone
 } from "../../lib/utils";
 import { fetchAllData } from "../../actions/fetchAllData";
 
 
-export const InternalPageContext = createContext<Props.ContextProps | null>(null);
+export const InternalPageContext = createContext<any>(null);
 
 export default function InternalPage(){
 
@@ -39,7 +40,6 @@ export default function InternalPage(){
 
     const [ isAuthorized, setAuthorization ] = useState(false);
     const [ itsOkToRender, setPermissionToRender ] = useState(false);
-    const [ reArrangeAnnotationsSignal, setReArrangeAnnotationsSignal ] = useState(0);
 
     const [ visibleParameters, changedVisibility ] = useState<Data.VisibilityState>({  
         folder: "visible", 
@@ -64,10 +64,10 @@ export default function InternalPage(){
     };
 
     const contextValues = {
-        resortAnnotationsByTimestampInDOM,
+        addNewAnnotationToTablesObject,
+        updateTimestampInDOM,
         moveFromFoldersToDeletedInDOM,
-        deleteAnnotationPermanentlyInDOM,
-        reArrangeAnnotationsSignal
+        deleteAnnotationPermanentlyInDOM
     };
 
     let alreadyReloaded = false;
@@ -149,16 +149,87 @@ export default function InternalPage(){
         setColorTheme({ theme: localStorage.getItem("theme") ?? "light" });  
     }
 
-    function resortAnnotationsByTimestampInDOM() {
-        setTables(previous => previous);
+    function updateTimestampInDOM(parentId: string, id: number, timestamp: number): void {  
+
+        setTables(oldTables => {
+            const tablesDeepCopy = deepClone(oldTables);
+            const target = tablesDeepCopy[parentId].filter(annot => annot.id === id)[0];
+            target.timestamp = timestamp;
+
+            return tablesDeepCopy;
+        });
     }
 
-    function moveFromFoldersToDeletedInDOM() {
+    function addNewAnnotationToTablesObject(
+        id: number, 
+        title: string, 
+        content: string, 
+        timestamp: number
+    ): void {
+
+        const newAnnotationData: Data.Annotation = {
+            id,
+            title,
+            content,
+            timestamp
+        };
+
+        setTables(oldTables => {
+            const tablesDeepCopy = deepClone(oldTables);
+            tablesDeepCopy.folders.unshift(newAnnotationData);
+
+            return tablesDeepCopy;
+        })
 
     }
 
-    function deleteAnnotationPermanentlyInDOM() {
+    function moveFromFoldersToDeletedInDOM(
+        oldId: number,
+        id: number, 
+        title: string, 
+        content: string, 
+        timestamp: number
+    ): void {
 
+        const newAnnotationMetadata = {
+            id,
+            title,
+            content,
+            timestamp
+        };
+
+        setTables(oldTables => {
+
+            const tablesDeepCopy = deepClone(oldTables);
+
+            const folderTableModified = tablesDeepCopy.folders.filter(table => table.id !== oldId);
+            const deletedTableModified = [ newAnnotationMetadata, ...tablesDeepCopy.deleteds ];
+            const completedTable = tablesDeepCopy.completeds;
+
+            const newTablesObject: Data.Tables = {
+                folders: folderTableModified,
+                deleteds: deletedTableModified,
+                completeds: completedTable
+            }
+
+            return newTablesObject;
+        });
+
+    }
+
+    function deleteAnnotationPermanentlyInDOM(id: number): void {
+        setTables(oldTables => {
+            const tablesDeepCopy = deepClone(oldTables);
+            const modifiedDeletedTable = tablesDeepCopy.deleteds.filter(annot => annot.id !== id);
+
+            const newTablesObject: Data.Tables = {
+                folders: tablesDeepCopy.folders,
+                deleteds: modifiedDeletedTable,
+                completeds: tablesDeepCopy.completeds
+            }
+
+            return newTablesObject;
+        })
     }
 
     return (

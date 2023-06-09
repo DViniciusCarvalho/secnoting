@@ -4,7 +4,7 @@ import { Response } from "../../types/response";
 
 
 export function deletePermanently(
-    annotationId: string
+    annotationId: number
 ): Promise<Response.DeletePermanentlyResponse> {
     
     const requestConfig = arrangeDeletePermanentlyRequest(annotationId);
@@ -12,7 +12,7 @@ export function deletePermanently(
     return promisedResponseData;
 }
 
-function arrangeDeletePermanentlyRequest(id: string): Request.DeletePermanentlyRequestParameters {
+function arrangeDeletePermanentlyRequest(id: number): Request.DeletePermanentlyRequestParameters {
 
     const sendToDeletedData: Data.DeletePermanentlyData = { 
         id: id, 

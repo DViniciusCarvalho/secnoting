@@ -1,6 +1,6 @@
+from datetime import datetime
 from pathlib import Path
 import sys
-import time
 
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[2]
@@ -22,7 +22,7 @@ async def add_annotation(request: Request):
     valid_id = decode_token(token)
 
     if valid_id:
-        current_timestamp = int(time.time() * 1000)
+        current_timestamp = int(datetime.now().timestamp() * 1000)
 
         create_new_annotation(
             user_id=valid_id, 

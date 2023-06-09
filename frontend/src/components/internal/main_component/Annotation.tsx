@@ -16,10 +16,10 @@ export default function Annotation({
     content, 
     id, 
     timestamp, 
-    alterDOMAction 
 }: Props.AnnotationProps){
 
     const { 
+        updateTimestampInDOM,
         moveFromFoldersToDeletedInDOM, 
         deleteAnnotationPermanentlyInDOM 
     } = useContext(InternalPageContext)!;
@@ -78,8 +78,7 @@ export default function Annotation({
                 setCurrentTitle(title);
                 setCurrentContent(content);
                 setCurrentTimestamp(response.timestamp);
-
-                alterDOMAction(numberId, response.timestamp); // refatorar
+                updateTimestampInDOM(parentId, numberId, response.timestamp);
                 setAuthorization(true);
             }
         }
@@ -111,7 +110,7 @@ export default function Annotation({
 
     function handleDeleteAnnotation(): void {
         const annotationId = annotationBlock.current!.id;
-        const numberPartInTheIdProperty = String(annotationId.match(/\d+/));
+        const numberPartInTheIdProperty = Number(annotationId.match(/\d+/));
 
         if (annotationBlock.current!.parentElement!.id === "folders"){
             const annotationTitleToSend = annotationTitle.current!.innerText;
@@ -129,12 +128,12 @@ export default function Annotation({
 
     }
 
-    async function handleDeleteTemporary(annotationId: string, title: string, content: string) {
+    async function handleDeleteTemporary(annotationId: number, title: string, content: string) {
         const response = await deleteTemporary(annotationId, title, content);
 
         if(response.authorized){
             if(response.done){
-                moveFromFoldersToDeletedInDOM(); // refatorar
+                moveFromFoldersToDeletedInDOM(annotationId, response.id, title, content, response.timestamp);
             }
             else {
                 console.log("error");
@@ -145,13 +144,13 @@ export default function Annotation({
         }
     }
 
-    async function handleDeletePermanently(annotationId: string) {
+    async function handleDeletePermanently(annotationId: number) {
 
         const response = await deletePermanently(annotationId);
 
         if(response.authorized){
             if(response.done){
-                deleteAnnotationPermanentlyInDOM(); // refatorar
+                deleteAnnotationPermanentlyInDOM(annotationId); // refatorar
             }
             else {
                 console.log("error");

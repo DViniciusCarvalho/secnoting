@@ -55,16 +55,16 @@ export namespace Props {
     } 
 
     interface DeletedProps {
-        table: Data.Row[];
+        tables: Data.Tables;
     }
     
     interface CompletedProps {
-        table: Data.Row[];
+        tables: Data.Tables;
     }
     
     interface FolderProps {
         theme: string;
-        table: Data.Row[];
+        tables: Data.Tables;
     }
 
     interface AnnotationProps {
@@ -72,15 +72,6 @@ export namespace Props {
         content: string;
         id: string;
         timestamp: number;
-        alterDOMAction: any;
-    }
-
-
-    interface ContextProps {
-        resortAnnotationsByTimestampInDOM: () => void;
-        moveFromFoldersToDeletedInDOM: () => void;
-        deleteAnnotationPermanentlyInDOM: () => void;
-        reArrangeAnnotationsSignal: number;
     }
 
     interface ButtonProps {

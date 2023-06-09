@@ -1,4 +1,4 @@
-import json
+from json import dumps
 
 def create_login_response(validated, token):
     response_dict = { 
@@ -6,7 +6,7 @@ def create_login_response(validated, token):
         "token": token 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
 
 
@@ -16,7 +16,7 @@ def create_logon_response(user_exists, valid_input):
         "validInput": valid_input 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
 
 
@@ -79,7 +79,7 @@ def create_tables_response(is_authentic_user, tables_dict, user_information):
         "userInfo": user_information 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
 
 
@@ -98,18 +98,20 @@ def create_annotation_response(authorized=False, annot_id="", title="",
         "annotationInfo": annotation_info 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
 
 
-def create_moved_annotation_response(authorized=True, annot_deleteds_id="", done=False):
+def create_moved_annotation_response(authorized=True, annot_deleteds_id="", 
+                                     new_timestamp=0, done=False):
     response_dict = { 
         "authorized": authorized, 
         "id": annot_deleteds_id, 
+        "timestamp": new_timestamp,
         "done": done 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
  
 
@@ -120,7 +122,7 @@ def create_save_response(authorized, timestamp, done):
         "done": done 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied
 
 
@@ -130,5 +132,5 @@ def create_delete_response(authorized, done):
         "done": done 
     }
 
-    response_stringfied = json.dumps(response_dict)
+    response_stringfied = dumps(response_dict)
     return response_stringfied

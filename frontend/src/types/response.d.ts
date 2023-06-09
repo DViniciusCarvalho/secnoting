@@ -25,6 +25,8 @@ namespace Response {
 
     interface DeleteTemporaryResponse {
         authorized: boolean;
+        id: number;
+        timestamp: number;
         done: boolean;
     }
 

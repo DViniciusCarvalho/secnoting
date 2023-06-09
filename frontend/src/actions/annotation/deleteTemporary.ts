@@ -4,7 +4,7 @@ import { Response } from "../../types/response";
 
 
 export function deleteTemporary(
-    id: string, 
+    id: number, 
     title: string, 
     content: string
 ): Promise<Response.DeleteTemporaryResponse> {
@@ -15,17 +15,16 @@ export function deleteTemporary(
 }
 
 function arrangeDeleteRequest(
-    id: string, 
+    id: number, 
     title: string, 
     content: string
 ): Request.SendToDeleteRequestParameters {
 
 
-    const sendToDeletedData: Data.SendToDeletedData = { 
+    const sendToDeletedData: Data.DeleteTemporaryData = { 
         id: id, 
         title: title, 
         content: content, 
-        timestamp: Date.now(), 
         token: localStorage.getItem("token") ?? ""
     };
 

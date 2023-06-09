@@ -1,84 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import style from "../../../styles/internal/main/Main.module.css";
 import { Data } from "../../../types/data";
 import { Props } from "../../../types/props";
 import Annotation from "./Annotation";
 
 
-export default function Completed({ table }: Props.CompletedProps){
+export default function Completed({ tables }: Props.CompletedProps) {
 
-    const [ elements, setElements ] = useState<JSX.Element[]>([]);
-
-    let alreadyReloaded = false;
-
-    useEffect(() => {
-        if (!alreadyReloaded){
-            organizeAnnotationsListInAComponent(table);
-        }
-        alreadyReloaded = true;
-    }, [])
-
-    function updateCompletedElementsInDOM() {
-        setElements(previous => []);
-        organizeAnnotationsListInAComponent(table);
+    function sortAnnotationsByDescendantTimestamp(annotations: Data.Annotation[]): Data.Annotation[] {
+        return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
+            return b.timestamp - a.timestamp;
+        })
     }
 
-    /*
-     * Getting and organizing all the annotations that belongs to the Completed component
-     */
+    function mountCompletedAnnotation (annotation: Data.Annotation): JSX.Element {
+        const DOMidentifier = `completed_${annotation.id}`;
 
-    function organizeAnnotationsListInAComponent(table: Data.Row[]): void {
-
-        const annotListOrderedByTimestamp = table.sort(
-            (a: Data.Row, b: Data.Row) => { 
-                return b["timestamp"] - a["timestamp"] 
-            }
-        );
-
-        for (let annotation of annotListOrderedByTimestamp){
-            const annotationId = annotation["id"];
-            const annotationTitle = annotation["title"];
-            const annotationContent = annotation["content"];
-            const annotationTimestamp = annotation["timestamp"];
-
-            addAnnotationToDOM({ 
-                id: annotationId, 
-                title: annotationTitle, 
-                content: annotationContent, 
-                timestamp: annotationTimestamp 
-            });
-        }
-    }
-
-    function addAnnotationToDOM({ 
-        id, 
-        title, 
-        content, 
-        timestamp 
-    }: Data.Annotation): void {
-
-        const idPropertyNameInDOM = `completed_${id}`;
-
-        const newAnnotationPropertys: Props.AnnotationProps = {
-            title: title,
-            content: content,
-            id: idPropertyNameInDOM,
-            timestamp: timestamp,
-            alterDOMAction: updateCompletedElementsInDOM
+        const annotationProps: Props.AnnotationProps = {
+            id: DOMidentifier,
+            title: annotation.title,
+            content: annotation.content,
+            timestamp: annotation.timestamp
         };
 
-        const newElement = <Annotation { ...newAnnotationPropertys }/>;
-        setElements([...elements, newElement]);
+        const JSXAnnotationElement = <Annotation key={DOMidentifier} {...annotationProps}/>;
 
+        return JSXAnnotationElement;
     }
 
     return (
         <section className={style.completed} id="completeds">
-            { elements.map((element, index) => (
-                <React.Fragment key={index}>
-                    {element}
-                </React.Fragment>
-            )) }
+
+            { sortAnnotationsByDescendantTimestamp(tables.completeds).map((annotation, index) => (
+                mountCompletedAnnotation(annotation)
+            ))}
+
         </section>
     );
 }

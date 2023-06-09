@@ -12,16 +12,15 @@ export namespace Data {
         deleted: string;
     }
 
-    interface SendToDeletedData {
-        id: string;
+    interface DeleteTemporaryData {
+        id: number;
         title: string;
         content: string;
-        timestamp: number;
         token: string;
     }
 
     interface DeletePermanentlyData {
-        id: string;
+        id: number;
         token: string;
     }
 
@@ -44,6 +43,7 @@ export namespace Data {
     type Row = Annotation;
     
     interface Tables {
+        [key: string]: Row[];
         folders: Row[];
         completeds: Row[];
         deleteds: Row[];

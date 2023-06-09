@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import style from "../../../styles/internal/main/Main.module.css";
 
 import { Data } from "../../../types/data";
@@ -8,89 +8,39 @@ import Annotation from "./Annotation";
 import { Navigate } from "react-router-dom";
 
 
-export default function Deleted({ table }: Props.DeletedProps){
+export default function Deleted({ tables }: Props.DeletedProps){
 
-    const [ elements, setElements ] = useState<JSX.Element[]>([]);
-    const [ isAuthorized, setAuthorization ] = useState<boolean>(true);
-    const [ canRender, setcanRender ] = useState<boolean>(false);
+    const [ isAuthorized, setAuthorization ] = useState(true);
 
-    let alreadyReloaded = false;
-
-    useEffect(() => {
-        if (!alreadyReloaded){
-            organizeAnnotationsListInAComponent(table);
-        }
-        alreadyReloaded = true;
-    }, [])
-
-    function updateDeletedElementsInDOM() {
-        setElements(previous => []);
-        organizeAnnotationsListInAComponent(table);
+    function sortAnnotationsByDescendantTimestamp(annotations: Data.Annotation[]): Data.Annotation[] {
+        return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
+            return b.timestamp - a.timestamp;
+        })
     }
 
-    /*
-     * Getting and organizing all the annotations that belongs to the Deleted component
-     */ 
+    function mountDeletedAnnotation (annotation: Data.Annotation): JSX.Element {
+        const DOMidentifier = `deleted_${annotation.id}`;
 
-    function organizeAnnotationsListInAComponent(table: Data.Row[]): void {
-
-        setcanRender(false);
-
-        const annotListOrderedByTimestamp = table.sort(
-            (a: Data.Row, b: Data.Row) => { 
-                return b["timestamp"] - a["timestamp"] 
-            }
-        );
-
-        for (let annotation of annotListOrderedByTimestamp){
-            const annotationId = annotation["id"];
-            const annotationTitle = annotation["title"];
-            const annotationContent = annotation["content"];
-            const annotationTimestamp = annotation["timestamp"];
-
-            addAnnotationToDOM({ 
-                id: annotationId, 
-                title: annotationTitle, 
-                content: annotationContent, 
-                timestamp: annotationTimestamp 
-            });
-        }
-
-        setcanRender(true);
-    }
-
-    function addAnnotationToDOM({ 
-        id, 
-        title, 
-        content, 
-        timestamp 
-    }: Data.Annotation): void{
-
-        const idPropertyNameInDOM = `deleted_${id}`;
-
-        const newAnnotationPropertys: Props.AnnotationProps = {
-            title: title,
-            content: content,
-            id: idPropertyNameInDOM,
-            timestamp: timestamp,
-            alterDOMAction: updateDeletedElementsInDOM
+        const annotationProps: Props.AnnotationProps = {
+            id: DOMidentifier,
+            title: annotation.title,
+            content: annotation.content,
+            timestamp: annotation.timestamp
         };
 
-        const oldElements = elements;
-        const newElement = <Annotation { ...newAnnotationPropertys }/>;
-        oldElements.push(newElement);
+        const JSXAnnotationElement = <Annotation key={DOMidentifier} {...annotationProps}/>;
+        console.log(JSXAnnotationElement)
 
-        setElements(oldElements);
-
+        return JSXAnnotationElement;
     }
 
     return (
         <section className={style.deleted} id="deleteds">
-            { canRender && (elements.map((element, index) => (
-                <React.Fragment key={index}>
-                    {element}
-                </React.Fragment>
-            )))} 
+
+            { sortAnnotationsByDescendantTimestamp(tables.deleteds).map((annotation, index) => (
+                mountDeletedAnnotation(annotation)
+            ))} 
+
             { !isAuthorized && ( <Navigate to="/login"/> )}
         </section>
     );

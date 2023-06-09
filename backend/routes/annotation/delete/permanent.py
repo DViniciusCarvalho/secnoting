@@ -1,9 +1,9 @@
 from pathlib import Path
-import sys
+from sys import path
 
 file = Path(__file__).resolve()
 parent, root = file.parent, file.parents[3]
-sys.path.append(str(root))
+path.append(str(root))
 
 from fastapi import APIRouter, Request
 

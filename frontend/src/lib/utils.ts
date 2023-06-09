@@ -40,3 +40,17 @@ export function someInputIsVoid(...data: string[]): boolean {
     const someIsVoid = data.some(input => !input.length);
     return someIsVoid
 }
+
+export function deepCopy<T>(object: T): T {
+    return object;
+}
+
+export function deepClone<T>(object: T): T {
+    if (typeof object !== "object" || object === null) return object;
+    const newObject: T | [] | {} = Array.isArray(object)? [] : {};
+    for (let key in object) {
+        const value = object[key];
+        (newObject as T)[key] = deepClone(value);
+    }
+    return newObject as T;
+}

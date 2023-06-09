@@ -15,15 +15,15 @@ export default function Main({
 
     const folderProps: Props.FolderProps = {
         theme: theme, 
-        table: tables["folders"]
+        tables: tables
     };
 
     const completedProps: Props.CompletedProps = {
-        table: tables["completeds"]
+        tables: tables
     };
 
     const deletedProps: Props.DeletedProps = {
-        table: tables["deleteds"]
+        tables: tables
     };
 
     return (
