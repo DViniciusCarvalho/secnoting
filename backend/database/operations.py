@@ -1,5 +1,5 @@
 from sqlalchemy import text
-from .connection import Connection
+from backend.database.connection import Connection
 
 
 def add_user(name, email, password):

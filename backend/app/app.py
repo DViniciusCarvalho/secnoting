@@ -1,14 +1,21 @@
+from pathlib import Path
+from sys import path
+
+file = Path(__file__).resolve()
+parent, root = file.parent, file.parents[1]
+path.append(root)
+
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 import uvicorn
 
-from routes.logon import logon
-from routes.login import login
-from routes.mainpage import mainpage
-from routes.annotation import add, save
-from routes.annotation.delete import temporary, permanent
-from tests.security.sql_injection import sql_injection_tester
-from tests.security.xss import xss_tester
+from backend.routes.logon import logon
+from backend.routes.login import login
+from backend.routes.mainpage import mainpage
+from backend.routes.annotation import add, save
+from backend.routes.annotation.delete import temporary, permanent
+from backend.tests.security.sql_injection import sql_injection_tester
+from backend.tests.security.xss import xss_tester
 
 
 app = FastAPI()

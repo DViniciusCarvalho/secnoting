@@ -1,13 +1,17 @@
 from datetime import datetime
+from os import getenv
 from sys import exit
 
+from dotenv import load_dotenv
 from jwt import encode, decode, InvalidSignatureError
 
-from .responses import create_jwt_response
+from backend.IO_handler.responses import create_jwt_response
 
 
-ALG = "HS256"
-SECRET = "HJ2731WEM@#u*@738273424"
+load_dotenv()
+
+ALG = getenv("JWT_ALGORITHM")
+SECRET = getenv("JWT_SECRET")
 
 def generate_token(user_id):
     iat = datetime.now().timestamp()
@@ -18,7 +22,6 @@ def generate_token(user_id):
 
 def is_valid_token(user_token):
     try:
-        print(user_token)
         token = decode(user_token, SECRET, algorithms = [ALG])
         if float(token["exp"]) > datetime.now().timestamp():
             return token
