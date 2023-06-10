@@ -6,25 +6,25 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
 
 
-export default function Menu({ changedTheme, changedScreen, theme }: Props.MenuProps){
+export default function Menu({ changeTheme, changeCurrentSection, theme }: Props.MenuProps) {
 
     const folderProps: Props.FolderButtonProps = {
-        changedScreen: changedScreen, 
+        changeCurrentSectionToFolder: changeCurrentSection, 
         theme: theme
     };
 
     const completedProps: Props.CompletedButtonProps = {
-        changedScreen: changedScreen, 
+        changeCurrentSectionToCompleted: changeCurrentSection, 
         theme: theme
     };
 
     const themeProps: Props.ThemeButtonProps = {
-        changedTheme: changedTheme, 
+        changeTheme: changeTheme, 
         theme: theme
     };
 
     const deletedProps: Props.DeletedButtonProps = {
-        changedScreen: changedScreen, 
+        changeCurrentSectionToDeleted: changeCurrentSection, 
         theme: theme
     };
      

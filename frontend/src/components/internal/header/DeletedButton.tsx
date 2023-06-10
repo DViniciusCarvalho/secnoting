@@ -5,14 +5,17 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
 
 
-export default function DeletedButton({ changedScreen, theme }: Props.DeletedButtonProps){
+export default function DeletedButton({ 
+    changeCurrentSectionToDeleted, 
+    theme 
+}: Props.DeletedButtonProps) {
 
     const deletedIconCurrentTheme = (theme === "dark")? DeletedDarkTheme : DeletedLightTheme;
     
-    function handleChangeToDeletedScreen(event: React.MouseEvent<HTMLLIElement, MouseEvent>){
+    function handleChangeToDeletedScreen(event: React.MouseEvent<HTMLLIElement, MouseEvent>): void {
         const unknownType = event as unknown;
         const eventMouseEvent = unknownType as MouseEvent;
-        changedScreen(eventMouseEvent);
+        changeCurrentSectionToDeleted(eventMouseEvent);
     }
 
     return (

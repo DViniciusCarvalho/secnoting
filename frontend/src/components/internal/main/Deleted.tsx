@@ -1,22 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import style from "../../../styles/internal/main/Main.module.css";
 
 import { Data } from "../../../types/data";
 import { Props } from "../../../types/props";
 
 import Annotation from "./Annotation";
-import { Navigate } from "react-router-dom";
+import { sortAnnotationsByDescendantTimestamp } from "../../../lib/utils";
 
 
-export default function Deleted({ tables }: Props.DeletedProps){
-
-    const [ isAuthorized, setAuthorization ] = useState(true);
-
-    function sortAnnotationsByDescendantTimestamp(annotations: Data.Annotation[]): Data.Annotation[] {
-        return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
-            return b.timestamp - a.timestamp;
-        })
-    }
+export default function Deleted({ tables }: Props.DeletedProps) {
 
     function mountDeletedAnnotation (annotation: Data.Annotation): JSX.Element {
         const DOMidentifier = `deleted_${annotation.id}`;
@@ -29,7 +21,6 @@ export default function Deleted({ tables }: Props.DeletedProps){
         };
 
         const JSXAnnotationElement = <Annotation key={DOMidentifier} {...annotationProps}/>;
-        console.log(JSXAnnotationElement)
 
         return JSXAnnotationElement;
     }
@@ -37,11 +28,10 @@ export default function Deleted({ tables }: Props.DeletedProps){
     return (
         <section className={style.deleted} id="deleteds">
 
-            { sortAnnotationsByDescendantTimestamp(tables.deleteds).map((annotation, index) => (
+            { sortAnnotationsByDescendantTimestamp(tables.deleteds).map(annotation => (
                 mountDeletedAnnotation(annotation)
             ))} 
 
-            { !isAuthorized && ( <Navigate to="/login"/> )}
         </section>
     );
 }

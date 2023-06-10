@@ -4,7 +4,7 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
   
 
-export default function ThemeButton({ changedTheme, theme }: Props.ThemeButtonProps){
+export default function ThemeButton({ changeTheme, theme }: Props.ThemeButtonProps) {
 
     const themeIconCurrentTheme = (theme === "dark")? ThemeIconDarkTheme : ThemeIconLightTheme;
     
@@ -12,7 +12,7 @@ export default function ThemeButton({ changedTheme, theme }: Props.ThemeButtonPr
         <li 
           className={`${ style.menu__item} ${style[theme] }`} 
           id="t_button"
-          onClick={changedTheme} 
+          onClick={changeTheme} 
         >
             <img 
               src={themeIconCurrentTheme} 

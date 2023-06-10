@@ -8,9 +8,9 @@ import Button from "../common/Button";
 
 export default function FirstPage(){
 
-    const [ canRedirectToLogon, setCanRedirectToLogon ] = useState<boolean>(false);
-    const [ canRedirectToLogin, setCanRedirectToLogin ] = useState<boolean>(false);
-    const [ loadClass, setLoadClass ] = useState<string>("");
+    const [ canRedirectToLogon, setCanRedirectToLogon ] = useState(false);
+    const [ canRedirectToLogin, setCanRedirectToLogin ] = useState(false);
+    const [ loadClass, setLoadClass ] = useState("");
 
     const goToLoginButtonProps: Props.ButtonProps = {
         message: "Sign in",
@@ -32,13 +32,16 @@ export default function FirstPage(){
         }
     }, []);
 
-    function handleLoginButtonClick(event: React.MouseEvent<HTMLInputElement, MouseEvent>){
+
+    function handleLoginButtonClick(event: React.MouseEvent<HTMLInputElement, MouseEvent>): void {
         setCanRedirectToLogin(true);
     }
 
-    function handleLogonButtonClick(event: React.MouseEvent<HTMLInputElement, MouseEvent>){
+
+    function handleLogonButtonClick(event: React.MouseEvent<HTMLInputElement, MouseEvent>): void {
         setCanRedirectToLogon(true);
     }
+
 
     return (
         <div className={`${style.firstpage__background} ${style[loadClass]}`}>

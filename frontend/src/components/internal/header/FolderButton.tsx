@@ -5,14 +5,17 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
 
 
-export default function FolderButton({ changedScreen, theme }: Props.FolderButtonProps){
+export default function FolderButton({ 
+    changeCurrentSectionToFolder, 
+    theme 
+}: Props.FolderButtonProps) {
 
     const folderIconCurrentTheme = (theme === "dark")? FolderDarkTheme : FolderLightTheme;
 
     function handleChangeToFolderScreen(event: React.MouseEvent<HTMLLIElement, MouseEvent>){
         const unknownType = event as unknown;
         const eventMouseEvent = unknownType as MouseEvent;
-        changedScreen(eventMouseEvent);
+        changeCurrentSectionToFolder(eventMouseEvent);
     }
 
     return (

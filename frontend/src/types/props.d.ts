@@ -7,7 +7,7 @@ export namespace Props {
         email: string;
         changeTheme: () => void;
         theme: string;
-        changedScreen: (event: MouseEvent) => void;
+        changeCurrentSection: (event: MouseEvent) => void;
     }
     
     interface UserProps {
@@ -17,28 +17,28 @@ export namespace Props {
     }
 
     interface MenuProps {
-        changedTheme: () => void;
-        changedScreen: (event: MouseEvent) => void;
+        changeTheme: () => void;
+        changeCurrentSection: (event: MouseEvent) => void;
         theme: string;
     }
     
     interface FolderButtonProps {
-        changedScreen: (event: MouseEvent) => void;
+        changeCurrentSectionToFolder: (event: MouseEvent) => void;
         theme: string;
     }
     
     interface CompletedButtonProps {
-        changedScreen: (event: MouseEvent) => void;
+        changeCurrentSectionToCompleted: (event: MouseEvent) => void;
         theme: string;
     }
     
     interface ThemeButtonProps {
-        changedTheme: () => void;
+        changeTheme: () => void;
         theme: string;
     }
     
     interface DeletedButtonProps {
-        changedScreen: (event: MouseEvent) => void;
+        changeCurrentSectionToDeleted: (event: MouseEvent) => void;
         theme: string;
     }
     

@@ -1,5 +1,6 @@
+import { Data } from "../types/data";
 
-export function isButton(targetElement: any): boolean {
+export function isTargetElementButton(targetElement: any): boolean {
     const buttonIds = [
         "folder", 
         "completed", 
@@ -18,7 +19,7 @@ export function isNotTheThemeButton(elementId: string): boolean {
     return elementId !== "t_button";
 }
 
-export function delay(ms: number){
+export function delay(ms: number): Promise<null> {
     return new Promise(res => {
         setTimeout(() => res(null), ms);
     })
@@ -41,10 +42,6 @@ export function someInputIsVoid(...data: string[]): boolean {
     return someIsVoid
 }
 
-export function deepCopy<T>(object: T): T {
-    return object;
-}
-
 export function deepClone<T>(object: T): T {
     if (typeof object !== "object" || object === null) return object;
     const newObject: T | [] | {} = Array.isArray(object)? [] : {};
@@ -53,4 +50,14 @@ export function deepClone<T>(object: T): T {
         (newObject as T)[key] = deepClone(value);
     }
     return newObject as T;
+}
+
+export function sortAnnotationsByDescendantTimestamp(
+    annotations: Data.Annotation[]
+): Data.Annotation[] {
+
+    return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
+        return b.timestamp - a.timestamp;
+    });
+    
 }

@@ -4,30 +4,30 @@ import style from "../../styles/internal/Internal.module.css";
 import { Data } from "../../types/data";
 import { Props } from "../../types/props";
 
-import Header from "./header_component/Header";
-import Main from "./main_component/Main";
+import Header from "./header/Header";
+import Main from "./main/Main";
 import { Navigate } from "react-router-dom";
+import StatusPopUp from "../popups/StatusPopUp";
 
 import { 
-    isButton, 
+    isTargetElementButton, 
     isTheTargetElementToShow, 
     isNotTheThemeButton, 
-    deepClone
+    deepClone,
+    delay
 } from "../../lib/utils";
 import { fetchAllData } from "../../actions/fetchAllData";
 
 
 export const InternalPageContext = createContext<any>(null);
 
-export default function InternalPage(){
+export default function InternalPage() {
 
     const backgroundElement = document.getElementById("internal__page__background")!;
 
-    const [ screen, setColorTheme ] = useState({ 
-        theme: localStorage.getItem("theme") ?? "light" 
-    });
+    const [ theme, setTheme ] = useState(localStorage.getItem("theme") ?? "light");
 
-    const [ tables, setTables ] = useState<Data.Tables>({ 
+    const [ tables, setTables ] = useState<Data.AnnotationSections>({ 
         folders: [], 
         completeds: [], 
         deleteds: []
@@ -41,6 +41,12 @@ export default function InternalPage(){
     const [ isAuthorized, setAuthorization ] = useState(false);
     const [ itsOkToRender, setPermissionToRender ] = useState(false);
 
+    const [ popUpVisibility, setPopUpVisibility ] = useState("invisible");
+    const [ statusPopUpData, setStatusPopUpData ] = useState({ 
+        content: "anErrorOccurred",  
+        status: "error" 
+    });
+
     const [ visibleParameters, changedVisibility ] = useState<Data.VisibilityState>({  
         folder: "visible", 
         completed: "invisible", 
@@ -48,7 +54,7 @@ export default function InternalPage(){
     });
 
     const mainProps: Props.MainProps = {
-        theme: screen.theme,
+        theme: theme,
         folderVisible: visibleParameters["folder"],
         completedVisible: visibleParameters["completed"],
         deletedVisible: visibleParameters["deleted"],
@@ -58,14 +64,15 @@ export default function InternalPage(){
     const headerProps: Props.HeaderProps = {
         name: userInfo.name,
         email: userInfo.email,
-        changeTheme: changedTheme,
-        theme: screen.theme,
-        changedScreen: changedScreen
+        changeTheme: changeTheme,
+        theme: theme,
+        changeCurrentSection: changeCurrentSection
     };
 
     const contextValues = {
+        showPopUp,
         addNewAnnotationToTablesObject,
-        updateTimestampInDOM,
+        updateAnnotationInDOM,
         moveFromFoldersToDeletedInDOM,
         deleteAnnotationPermanentlyInDOM
     };
@@ -82,18 +89,21 @@ export default function InternalPage(){
         }
     }, []);
 
+
     /*  
      * Fetching all the data from the database to distribute to Folder, Deleted and Completed components
      */
+
 
     async function handleFetchAllDataRequest(): Promise<void> {
         const response = await fetchAllData();
 
         if (response.authenticity) {
+            console.log('passei por aq')
             const tables = response.tables;
-            const user_information = response.userInfo;  
+            const userInformation = response.userInfo;  
 
-            updateUserInfo(user_information);
+            updateUserInfo(userInformation);
             setTables(tables);
             setAuthorization(true);
         }
@@ -103,21 +113,19 @@ export default function InternalPage(){
         setPermissionToRender(true);
     }
 
+
     function updateUserInfo(userDataObject: Data.UserInfo): void {
         setUserInfo(userDataObject);
     }
 
-    /*
-     * Screen (folders, completeds, deleteds) changing functionality
-     */
 
-    function changedScreen(event: MouseEvent): void {
+    function changeCurrentSection(event: MouseEvent): void {
         const actionElement = event.target!;
         const actionElementHTML = actionElement as HTMLElement;
         const parentElement = document.getElementById("menu__items")!;
         const childrenArray = Array.from(parentElement.children);
 
-        if (isButton(actionElement)) { 
+        if (isTargetElementButton(actionElement)) { 
 
             const updatedParameters: {[key: string]: string} = { ...visibleParameters };
 
@@ -140,25 +148,33 @@ export default function InternalPage(){
         }
     }
 
-    /*
-     * Theme changing functionality
-     */
 
-    function changedTheme(): void {  
-        localStorage.setItem("theme", (screen.theme === "light")? "dark" : "light");
-        setColorTheme({ theme: localStorage.getItem("theme") ?? "light" });  
+    function changeTheme(): void {  
+        localStorage.setItem("theme", (theme === "light")? "dark" : "light");
+        setTheme(localStorage.getItem("theme") ?? "light");  
     }
 
-    function updateTimestampInDOM(parentId: string, id: number, timestamp: number): void {  
+
+    function updateAnnotationInDOM(
+        title: string, 
+        content: string, 
+        parentId: string, 
+        id: number, 
+        timestamp: number
+    ): void {  
 
         setTables(oldTables => {
             const tablesDeepCopy = deepClone(oldTables);
             const target = tablesDeepCopy[parentId].filter(annot => annot.id === id)[0];
+
+            target.title = title;
+            target.content = content;
             target.timestamp = timestamp;
 
             return tablesDeepCopy;
         });
     }
+
 
     function addNewAnnotationToTablesObject(
         id: number, 
@@ -183,6 +199,7 @@ export default function InternalPage(){
 
     }
 
+
     function moveFromFoldersToDeletedInDOM(
         oldId: number,
         id: number, 
@@ -206,7 +223,7 @@ export default function InternalPage(){
             const deletedTableModified = [ newAnnotationMetadata, ...tablesDeepCopy.deleteds ];
             const completedTable = tablesDeepCopy.completeds;
 
-            const newTablesObject: Data.Tables = {
+            const newTablesObject: Data.AnnotationSections = {
                 folders: folderTableModified,
                 deleteds: deletedTableModified,
                 completeds: completedTable
@@ -217,12 +234,13 @@ export default function InternalPage(){
 
     }
 
+
     function deleteAnnotationPermanentlyInDOM(id: number): void {
         setTables(oldTables => {
             const tablesDeepCopy = deepClone(oldTables);
             const modifiedDeletedTable = tablesDeepCopy.deleteds.filter(annot => annot.id !== id);
 
-            const newTablesObject: Data.Tables = {
+            const newTablesObject: Data.AnnotationSections = {
                 folders: tablesDeepCopy.folders,
                 deleteds: modifiedDeletedTable,
                 completeds: tablesDeepCopy.completeds
@@ -232,10 +250,26 @@ export default function InternalPage(){
         })
     }
 
+    async function showPopUp(
+        content: string = statusPopUpData.content, 
+        success: boolean = false
+    ): Promise<void> {
+
+        setStatusPopUpData({ 
+            content, 
+            status: success? "success" : "error" 
+        });
+
+        setPopUpVisibility("visible");
+        await delay(5000);
+        setPopUpVisibility("invisible");
+    }
+
     return (
         <div 
-          className={`${style.internal__page__background} ${style[screen.theme]}`} id="internal__page__background"
+          className={`${style.internal__page__background} ${style[theme]}`} id="internal__page__background"
         >
+            <StatusPopUp {...statusPopUpData} visibilityClass={popUpVisibility}/>
             { itsOkToRender && isAuthorized && ( 
               <React.Fragment>
                 <Header {...headerProps}/>

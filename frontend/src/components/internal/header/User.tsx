@@ -4,7 +4,7 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
 
 
-export default function User({ theme, name, email }: Props.UserProps){  
+export default function User({ theme, name, email }: Props.UserProps) {  
 
     const userPhotoCurrentTheme = (theme === "dark")? UserPhotoDarkTheme : UserPhotoLightTheme;
 

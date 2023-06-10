@@ -39,14 +39,16 @@ export namespace Data {
         content: string;
         timestamp: number;
     }
-
-    type Row = Annotation;
     
-    interface Tables {
-        [key: string]: Row[];
-        folders: Row[];
-        completeds: Row[];
-        deleteds: Row[];
+    interface AnnotationSections {
+        [key: string]: Annotation[];
+        folders: Annotation[];
+        completeds: Annotation[];
+        deleteds: Annotation[];
+    }
+
+    interface StatusPopUpMessages {
+        readonly[key: string]: string;
     }
 
 }

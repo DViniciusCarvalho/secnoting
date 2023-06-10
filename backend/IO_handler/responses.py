@@ -90,7 +90,7 @@ def create_annotation_response(authorized=False, annot_id="", title="",
         "id": annot_id, 
         "title": title, 
         "content": content, 
-        "timestamp": timestamp * 1000 
+        "timestamp": timestamp 
     }
 
     response_dict = { 

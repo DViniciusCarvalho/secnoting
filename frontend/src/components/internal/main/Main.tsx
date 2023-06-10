@@ -11,7 +11,7 @@ export default function Main({
     completedVisible, 
     deletedVisible, 
     tables 
-}: Props.MainProps){
+}: Props.MainProps) {
 
     const folderProps: Props.FolderProps = {
         theme: theme, 

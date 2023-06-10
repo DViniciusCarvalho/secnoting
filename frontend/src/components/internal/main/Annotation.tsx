@@ -16,26 +16,27 @@ export default function Annotation({
     content, 
     id, 
     timestamp, 
-}: Props.AnnotationProps){
+}: Props.AnnotationProps) {
 
     const { 
-        updateTimestampInDOM,
-        moveFromFoldersToDeletedInDOM, 
-        deleteAnnotationPermanentlyInDOM 
+        showPopUp,
+        updateAnnotationInDOM,
+        moveFromFoldersToDeletedInDOM,
+        deleteAnnotationPermanentlyInDOM
     } = useContext(InternalPageContext)!;
 
-    const annotationBlock = useRef<HTMLHeadingElement | null>(null);
-    const annotationTitle = useRef<HTMLHeadingElement | null>(null);
-    const annotationContent = useRef<HTMLHeadingElement | null>(null);
+    const annotationBlock = useRef<any>(null);
+    const annotationTitle = useRef<any>(null);
+    const annotationContent = useRef<any>(null);
 
-    const [ currentTimestamp, setCurrentTimestamp ] = useState<number>(timestamp);
-    const [ currentTitle, setCurrentTitle ] = useState<string>(title);
-    const [ currentContent, setCurrentContent ] = useState<string>(content);
+    const [ currentTimestamp, setCurrentTimestamp ] = useState(timestamp);
+    const [ currentTitle, setCurrentTitle ] = useState(title);
+    const [ currentContent, setCurrentContent ] = useState(content);
 
-    const [ visualState, setVisualState ] =  useState<string>("closed");
-    const [ canEdit, setCanEdit ] = useState<boolean>(false);
-    const [ externalTitle, setExternalTitle ] = useState<string>(title);
-    const [ isAuthorized, setAuthorization ] = useState<boolean>(true);
+    const [ visualState, setVisualState ] =  useState("closed");
+    const [ canEdit, setCanEdit ] = useState(false);
+    const [ externalTitle, setExternalTitle ] = useState(title);
+    const [ isAuthorized, setAuthorization ] = useState(true);
 
     
     function openAnnotation(): void {
@@ -57,11 +58,8 @@ export default function Annotation({
         setExternalTitle(titleText);
     }
 
-    /*
-     * Save annotation functionality
-     */
 
-    async function handleSaveChanges(){
+    async function handleSaveChanges(): Promise<void> {
         const currentTable = annotationBlock.current!.parentElement;
         const parentId = currentTable!.id;
         const title = annotationTitle.current!.innerText;
@@ -78,7 +76,7 @@ export default function Annotation({
                 setCurrentTitle(title);
                 setCurrentContent(content);
                 setCurrentTimestamp(response.timestamp);
-                updateTimestampInDOM(parentId, numberId, response.timestamp);
+                updateAnnotationInDOM(title, content, parentId, numberId, response.timestamp);
                 setAuthorization(true);
             }
         }
@@ -87,9 +85,6 @@ export default function Annotation({
         }
     }
 
-    /*
-     * Export file as ".txt" functionality
-     */
 
     function exportFileAsTxt(): void {
         const textToDownload = annotationContent.current!.innerText;
@@ -104,9 +99,6 @@ export default function Annotation({
         link.dispatchEvent(new MouseEvent("click"));
     }
 
-    /*
-     * Delete functionality
-     */
 
     function handleDeleteAnnotation(): void {
         const annotationId = annotationBlock.current!.id;
@@ -117,26 +109,36 @@ export default function Annotation({
             const annotationContentToSend = annotationContent.current!.innerText;
 
             handleDeleteTemporary(
-                numberPartInTheIdProperty, 
-                annotationTitleToSend, 
+                numberPartInTheIdProperty,
+                annotationTitleToSend,
                 annotationContentToSend
             );
         }
         else if(annotationBlock.current!.parentElement!.id === "deleteds"){
             handleDeletePermanently(numberPartInTheIdProperty);
         }
-
     }
 
-    async function handleDeleteTemporary(annotationId: number, title: string, content: string) {
+    async function handleDeleteTemporary(
+        annotationId: number, 
+        title: string, 
+        content: string
+    ): Promise<void> {
+
         const response = await deleteTemporary(annotationId, title, content);
 
         if(response.authorized){
             if(response.done){
-                moveFromFoldersToDeletedInDOM(annotationId, response.id, title, content, response.timestamp);
+                moveFromFoldersToDeletedInDOM(
+                    annotationId, 
+                    response.id, 
+                    title, 
+                    content, 
+                    response.timestamp
+                );
             }
             else {
-                console.log("error");
+                showPopUp("anErrorOccurred", false);
             }
         }   
         else {
@@ -144,18 +146,18 @@ export default function Annotation({
         }
     }
 
-    async function handleDeletePermanently(annotationId: number) {
+    async function handleDeletePermanently(annotationId: number): Promise<void> {
 
         const response = await deletePermanently(annotationId);
 
         if(response.authorized){
             if(response.done){
-                deleteAnnotationPermanentlyInDOM(annotationId); // refatorar
+                deleteAnnotationPermanentlyInDOM(annotationId);
             }
             else {
-                console.log("error");
+                showPopUp("anErrorOccurred", false);
             }
-        }   
+        }
         else {
             setAuthorization(false);
         }
@@ -169,14 +171,16 @@ export default function Annotation({
           ref={annotationBlock}
         >
                 <div className={style.external__header}>
-                    <h4 className={style.external__header__title}> { externalTitle } </h4>
-                    <div className={ style.delete__item__icon} onClick={handleDeleteAnnotation}/>
+                    <h4 className={style.external__header__title}>
+                        {externalTitle}
+                    </h4>
+                    <div className={style.delete__item__icon} onClick={handleDeleteAnnotation}/>
                 </div>
                 <div className={style.internal__header}>
                     <div className={ style.buttons__area}>
                         <div className={style.annonation__buttons}>
-                            <button className={style.save__button} onClick={handleSaveChanges}></button>
-                            <button className={style.export__button} onClick={exportFileAsTxt}></button>
+                            <button className={style.save__button} onClick={handleSaveChanges}/>
+                            <button className={style.export__button} onClick={exportFileAsTxt}/>
                         </div>
                         <button className={style.exit__button} onClick={leaveAnnotation}></button>
                     </div>
@@ -188,14 +192,16 @@ export default function Annotation({
                     > 
                         {currentTitle} 
                     </h1>
-                    <p className={style.annotation__date}> {calculateData(currentTimestamp)} </p>
+                    <p className={style.annotation__date}>
+                        {calculateData(currentTimestamp)} 
+                    </p>
                 </div>
                 <div 
                   className={style.annotation__content} 
                   contentEditable={canEdit? "true" : "false"} 
                   ref={annotationContent}
-                > 
-                    {currentContent} 
+                >
+                    {currentContent}
                 </div>
                 { !isAuthorized && (<Navigate to="/login"/>)}
         </article>

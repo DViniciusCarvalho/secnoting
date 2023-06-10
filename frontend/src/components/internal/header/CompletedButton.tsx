@@ -5,14 +5,17 @@ import style from "../../../styles/internal/header/Header.module.css";
 import { Props } from "../../../types/props";
 
 
-export default function CompletedButton({ changedScreen, theme }: Props.CompletedButtonProps){
+export default function CompletedButton({ 
+    changeCurrentSectionToCompleted, 
+    theme 
+}: Props.CompletedButtonProps) {
 
     const tasklistIconCurrentTheme = (theme === "dark")? TaskListDarkTheme : TaskListLightTheme;
     
-    function handleChangeToCompletedScreen(event: React.MouseEvent<HTMLLIElement, MouseEvent>){
+    function handleChangeToCompletedScreen(event: React.MouseEvent<HTMLLIElement, MouseEvent>): void {
         const unknownType = event as unknown;
         const eventMouseEvent = unknownType as MouseEvent;
-        changedScreen(eventMouseEvent);
+        changeCurrentSectionToCompleted(eventMouseEvent);
     }
 
     return (

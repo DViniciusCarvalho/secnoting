@@ -4,7 +4,13 @@ import Menu from "./Menu";
 import LogOutButton from "./LogOutButton";
 import { Props } from "../../../types/props";
 
-export default function header({ name, email, changeTheme, theme, changedScreen }: Props.HeaderProps){
+export default function header({ 
+    name, 
+    email, 
+    changeTheme, 
+    theme, 
+    changeCurrentSection 
+}: Props.HeaderProps) {
  
     const userProps: Props.UserProps = {
         name: name, 
@@ -13,8 +19,8 @@ export default function header({ name, email, changeTheme, theme, changedScreen 
     };
 
     const menuProps: Props.MenuProps = {
-        changedTheme: changeTheme, 
-        changedScreen: changedScreen, 
+        changeTheme: changeTheme, 
+        changeCurrentSection: changeCurrentSection, 
         theme: theme
     };
 

@@ -3,7 +3,7 @@ import style from "../../styles/common/button/Button.module.css";
 import { Props } from "../../types/props";
 
 
-export default function Button({ message, page, handleSubmitButtonClick }: Props.ButtonProps){
+export default function Button({ message, page, handleSubmitButtonClick }: Props.ButtonProps) {
 
     const [ pageType, setPageType ] = useState("register");
 
@@ -17,7 +17,7 @@ export default function Button({ message, page, handleSubmitButtonClick }: Props
         <input type="submit" 
           value={message} 
           className={`${style.button} ${style[pageType]}`}
-          onClick={(event) => handleSubmitButtonClick(event)} 
+          onClick={handleSubmitButtonClick} 
           id="register__button"
         />
     );

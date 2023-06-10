@@ -6,13 +6,13 @@ import { Props } from "../../../types/props";
 import { Navigate } from "react-router-dom";
 
 
-export default function LogOutButton({ theme }: Props.LogOutButtonProps){
+export default function LogOutButton({ theme }: Props.LogOutButtonProps) {
 
     const logoutIconCurrentTheme = (theme === "dark")? LogoutIconDarkTheme : LogoutIconLightTheme;
 
     const [ didLogOut, setDidLogOut ] = useState(false);
 
-    function logOutUser(): void{
+    function logOutUser(): void {
         localStorage.setItem("token", "");
         setDidLogOut(true);
     }

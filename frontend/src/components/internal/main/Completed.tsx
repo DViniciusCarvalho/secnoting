@@ -3,15 +3,10 @@ import style from "../../../styles/internal/main/Main.module.css";
 import { Data } from "../../../types/data";
 import { Props } from "../../../types/props";
 import Annotation from "./Annotation";
+import { sortAnnotationsByDescendantTimestamp } from "../../../lib/utils";
 
 
 export default function Completed({ tables }: Props.CompletedProps) {
-
-    function sortAnnotationsByDescendantTimestamp(annotations: Data.Annotation[]): Data.Annotation[] {
-        return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
-            return b.timestamp - a.timestamp;
-        })
-    }
 
     function mountCompletedAnnotation (annotation: Data.Annotation): JSX.Element {
         const DOMidentifier = `completed_${annotation.id}`;
@@ -28,12 +23,13 @@ export default function Completed({ tables }: Props.CompletedProps) {
         return JSXAnnotationElement;
     }
 
+
     return (
         <section className={style.completed} id="completeds">
 
-            { sortAnnotationsByDescendantTimestamp(tables.completeds).map((annotation, index) => (
+            { sortAnnotationsByDescendantTimestamp(tables.completeds).map(annotation => (
                 mountCompletedAnnotation(annotation)
-            ))}
+            ))} 
 
         </section>
     );

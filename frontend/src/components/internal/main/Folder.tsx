@@ -10,9 +10,10 @@ import Annotation from "./Annotation";
 import { Navigate } from "react-router-dom";
 import { createAnnotation } from "../../../actions/annotation/addAnnotation";
 import { InternalPageContext } from "../InternalPage";
+import { sortAnnotationsByDescendantTimestamp } from "../../../lib/utils";
 
 
-export default function Folder({ theme, tables }: Props.FolderProps){
+export default function Folder({ theme, tables }: Props.FolderProps) {
 
     const { addNewAnnotationToTablesObject } = useContext(InternalPageContext)!;
 
@@ -20,27 +21,22 @@ export default function Folder({ theme, tables }: Props.FolderProps){
 
     const addIcon = (theme === "dark")? AddButtonDarkTheme : AddButtonLightTheme;
 
-    async function handleCreateAnnotation(): Promise<void> { 
+
+    async function handleCreateAnnotation(): Promise<void> {
         const response = await createAnnotation();
 
         if (response.authorized) {
             addNewAnnotationToTablesObject(
-                response.annotationInfo.id, 
-                response.annotationInfo.title, 
-                response.annotationInfo.content, 
+                response.annotationInfo.id,
+                response.annotationInfo.title,
+                response.annotationInfo.content,
                 response.annotationInfo.timestamp
             );
             setAuthorization(true);
         }
         else {
             setAuthorization(false);
-        } 
-    }
-
-    function sortAnnotationsByDescendantTimestamp(annotations: Data.Annotation[]): Data.Annotation[] {
-        return annotations.sort((a: Data.Annotation, b: Data.Annotation) => {
-            return b.timestamp - a.timestamp;
-        });
+        }
     }
 
     function mountFolderAnnotation (annotation: Data.Annotation): JSX.Element {
@@ -57,21 +53,22 @@ export default function Folder({ theme, tables }: Props.FolderProps){
 
         return JSXAnnotationElement;
     }
-    
+
     return (
         <section className={style.folder} id="folders">
-            <button 
-              className={style.add__annotation__button} 
+            <button
+              className={style.add__annotation__button}
               onClick={handleCreateAnnotation}
-            >               
+            >
                 <img src={addIcon} alt="sum icon" className={style.add__annotation__icon}/>
             </button>
 
-            { sortAnnotationsByDescendantTimestamp(tables.folders).map((annotation, index) => (
+            { sortAnnotationsByDescendantTimestamp(tables.folders).map(annotation => (
                 mountFolderAnnotation(annotation)
             ))} 
 
-            { !isAuthorized && ( <Navigate to="/login"/> )}
+            { !isAuthorized && (<Navigate to="/login"/>) }
+
         </section>
     );
 }
