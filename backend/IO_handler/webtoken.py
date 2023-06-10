@@ -5,7 +5,7 @@ from sys import exit
 from dotenv import load_dotenv
 from jwt import encode, decode, InvalidSignatureError
 
-from backend.IO_handler.responses import create_jwt_response
+from IO_handler.responses import create_jwt_response
 
 
 load_dotenv()

@@ -9,21 +9,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 import uvicorn
 
-from backend.routes.logon import logon
-from backend.routes.login import login
-from backend.routes.mainpage import mainpage
-from backend.routes.annotation import add, save
-from backend.routes.annotation.delete import temporary, permanent
-from backend.tests.security.sql_injection import sql_injection_tester
-from backend.tests.security.xss import xss_tester
+from routes.logon import logon
+from routes.login import login
+from routes.mainpage import mainpage
+from routes.annotation import add, save
+from routes.annotation.delete import temporary, permanent
+from tests.security.sql_injection import sql_injection_tester
+from tests.security.xss import xss_tester
 
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState, FormEvent } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "../../styles/logon/Logon.module.css";
 import PasswordEyeOpenned from "../../assets/open_eye.png";
 import PasswordEyeClosed from "../../assets/closed_eye.png";
 import { Props } from "../../types/props";
-import { Navigate } from "react-router-dom";
 import StatusPopUp from "../popups/StatusPopUp";
 import { delay } from "../../lib/utils";
 import Button from "../common/Button";
@@ -18,7 +17,6 @@ export default function LogonComponent(){
 
     const [ passwordIsHide, setPasswordIsHide ] = useState(true);
     const [ popUpVisibility, setPopUpVisibility ] = useState("invisible");
-    const [ didLogonWithSucess, setLogonSucessState ] = useState(false);
     const [ loadClass, setLoadClass ] = useState("");
     const [ statusPopUpData, setStatusPopUpData ] = useState({ 
         content: "invalidInput",  
@@ -74,7 +72,6 @@ export default function LogonComponent(){
                 else {
                     statusType = "logonSuccess";
                     success = true;
-                    setLogonSucessState(true);
                 }
             }
         }
@@ -182,7 +179,6 @@ export default function LogonComponent(){
                     </p>
                 </form>
             </div>
-            { didLogonWithSucess && (<Navigate to="/login"/>) }
         </div>      
     );
 };

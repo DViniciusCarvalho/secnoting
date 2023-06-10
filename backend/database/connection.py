@@ -8,27 +8,27 @@ load_dotenv()
 
 class Connection:
     
-    _user = getenv("MYSQL_USER")
-    _password = getenv("MYSQL_PASSWORD")
+    _root_password = getenv("MYSQL_ROOT_PASSWORD")
     _host = getenv("MYSQL_HOST")
     _port = getenv("MYSQL_PORT")
     _database = getenv("MYSQL_DATABASE")
 
-    engine = create_engine(f"mysql://{_user}:{_password}@{_host}:{_port}/{_database}")
+    engine = create_engine(f"mysql://root:{_root_password}@{_host}:{_port}/{_database}")
     Session = sessionmaker(bind = engine)
-    session = Session()
 
     @staticmethod
     def execute_query_with_value(query: str, values: dict[str]):
-        value_returned = Connection.session.execute(query, values)
-        Connection.session.commit()
-        return value_returned
+        with Connection.Session() as session:
+            value_returned = session.execute(query, values)
+            session.commit()
+            return value_returned
     
     @staticmethod
     def execute_query_without_value(query: str):
-        value_returned = Connection.session.execute(query)
-        Connection.session.commit()
-        return value_returned
+        with Connection.Session() as session:
+            value_returned = session.execute(query)
+            session.commit()
+            return value_returned
 
     @staticmethod
     def fetch_data(raw_data: ResultProxy):
