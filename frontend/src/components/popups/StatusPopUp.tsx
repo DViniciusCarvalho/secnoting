@@ -11,8 +11,8 @@ export default function StatusPopUp({ content, visibilityClass, status }: Props.
         invalidLogin: "Invalid credentials, password or e-mail incorrect.",
         invalidInput: "Invalid credentials, don't use HTML tags and follow the pattern.",
         invalidUser: "E-mail already used. Please, try to use another one.",
-        logonSucess: "Registered with success.",
-        anErrorOccurred: "An error occurre. Please, try again later."
+        logonSuccess: "Registered with success.",
+        anErrorOccurred: "An error occurred. Please, try again later."
     }; 
 
     return (

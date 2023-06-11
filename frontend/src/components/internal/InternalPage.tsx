@@ -99,7 +99,6 @@ export default function InternalPage() {
         const response = await fetchAllData();
 
         if (response.authenticity) {
-            console.log('passei por aq')
             const tables = response.tables;
             const userInformation = response.userInfo;  
 
