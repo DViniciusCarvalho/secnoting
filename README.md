@@ -21,7 +21,7 @@ docker-compose up
 ```
 
 **Notes:**
-* You can change the ports just changing the Dockerfiles, the docker-compose.yaml and the frontend/view/src/lib/endpoints.ts.
+* You can change the ports just changing the Dockerfiles, the docker-compose.yaml, the frontend/package.json and the frontend/src/lib/endpoints.ts.
 * If you have already created the containers using the ```docker-compose up``` command, run ```docker-compose up --build``` to apply changes you've made.
 
 
