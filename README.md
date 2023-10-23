@@ -1,3 +1,7 @@
+# About the project
+
+Secnoting is a note-taking application designed to store user notes, built using React for the front-end, FastAPI for the back-end, and MySQL as the database.
+
 # Running Secnoting on Your Machine
 
 First of all, you'll need Git, Docker, and Docker Compose installed on your machine. If you haven't already, you can download and install them using the following links:
@@ -16,7 +20,12 @@ cd secnoting
 docker-compose up
 ```
 
-The containers will start in the ports:
+**Notes:**
+* You can change the ports just changing the Dockerfiles, the docker-compose.yaml and the frontend/view/src/lib/endpoints.ts.
+* If you have already created the containers using the ```docker-compose up``` command, run ```docker-compose up --build``` to apply changes you've made.
+
+
+By default, the containers will start in the ports:
 - 7070 (Front-end)
 - 9090 (Back-end)
 - 3400 (Database)
