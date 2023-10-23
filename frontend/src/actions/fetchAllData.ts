@@ -1,3 +1,4 @@
+import { FETCH_USER_INITIAL_DATA_ENDPOINT } from "../lib/endpoints";
 import { Request } from "../types/request";
 import { Response } from "../types/response";
 
@@ -25,7 +26,7 @@ async function doFetchAllDataRequest(
     requestConfig: Request.FetchAllDataRequestParameters
 ): Promise<Response.InternalPageResponse> {
 
-    const response = await fetch("http://localhost:3001/internal-page-validation", requestConfig);
+    const response = await fetch(FETCH_USER_INITIAL_DATA_ENDPOINT, requestConfig);
     const responseStringfied = await response.json();
     const responseObject: Response.InternalPageResponse = JSON.parse(responseStringfied);
 

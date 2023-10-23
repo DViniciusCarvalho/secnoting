@@ -1,3 +1,4 @@
+import { SAVE_ANNOTATION_CHANGES_ENDPOINT } from "../../lib/endpoints";
 import { Data } from "../../types/data";
 import { Request } from "../../types/request";
 import { Response } from "../../types/response";
@@ -44,7 +45,11 @@ async function doSavingRequest(
     requestConfig: Request.SaveAnnotationRequestParameters
 ): Promise<Response.SaveAnnotationResponse> {
 
-    const response = await fetch("http://localhost:3001/save-annotation", requestConfig);
+    const response = await fetch(
+        SAVE_ANNOTATION_CHANGES_ENDPOINT, 
+        requestConfig
+    );
+    
     const responseStringfied: string = await response.json();
     const responseObject: Response.SaveAnnotationResponse = JSON.parse(responseStringfied);
 

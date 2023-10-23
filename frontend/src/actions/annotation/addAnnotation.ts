@@ -1,3 +1,4 @@
+import { ADD_ANNOTATION_ENDPOINT } from "../../lib/endpoints";
 import { Request } from "../../types/request";
 import { Response } from "../../types/response";
 
@@ -25,7 +26,7 @@ async function doAnnotationRequest(
     requestConfig: Request.CreateAnnotationRequestParameters
 ): Promise<Response.CreateAnnotationResponse> {
     
-    const response = await fetch("http://localhost:3001/add-annotation", requestConfig);
+    const response = await fetch(ADD_ANNOTATION_ENDPOINT, requestConfig);
     const responseStringfied = await response.json();
     const responseObject = JSON.parse(responseStringfied);
 

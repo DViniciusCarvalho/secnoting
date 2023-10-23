@@ -1,3 +1,4 @@
+import { DELETE_TEMPORARY_ENDPOINT } from "../../lib/endpoints";
 import { Data } from "../../types/data";
 import { Request } from "../../types/request";
 import { Response } from "../../types/response";
@@ -43,7 +44,7 @@ async function doDeleteRequest(
 ): Promise<Response.DeleteTemporaryResponse> {
 
     const response: Response = await fetch(
-        "http://localhost:3001/delete-folder-annotation", 
+        DELETE_TEMPORARY_ENDPOINT, 
         deleteRequestParameters
     );
 

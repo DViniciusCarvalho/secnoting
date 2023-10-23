@@ -11,6 +11,6 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3000
+EXPOSE 7070
  
-CMD ["npm", "start"]
+CMD ["npm", "run", "start", "--port", "7070"]

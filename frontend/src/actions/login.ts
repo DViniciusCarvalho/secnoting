@@ -1,6 +1,7 @@
 import { Request } from "../types/request";
 import { Response } from "../types/response";
 import { someInputIsVoid } from "../lib/utils";
+import { LOGIN_USER_ENDPOINT } from "../lib/endpoints";
 
 
 export function login(    
@@ -44,7 +45,7 @@ async function doLoginRequest(
     requestConfig: Request.LoginRequestParameters
 ): Promise<Response.LoginResponse> {
 
-    const response = await fetch("http://localhost:3001/login-user", requestConfig);
+    const response = await fetch(LOGIN_USER_ENDPOINT, requestConfig);
     const responseStringfied = await response.json();
     const responseObject = JSON.parse(responseStringfied);
 

@@ -1,3 +1,4 @@
+import { DELETE_ANNOTATION_PERMANENTLY_ENDPOINT } from "../../lib/endpoints";
 import { Data } from "../../types/data";
 import { Request } from "../../types/request";
 import { Response } from "../../types/response";
@@ -34,7 +35,7 @@ async function doDeletePermanentlyRequest(
 ): Promise<Response.DeletePermanentlyResponse> {
 
     const response: Response = await fetch(
-        "http://localhost:3001/delete-annotation-permanently", 
+        DELETE_ANNOTATION_PERMANENTLY_ENDPOINT, 
         deleteRequestParameters
     );
 
